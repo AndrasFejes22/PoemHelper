@@ -19,7 +19,7 @@ public class PoemHelper {
         //System.out.println("haladás: "+extractVowelKeyFromWord2("haladás"));
         System.out.println("---------------------------------------------");
         System.out.println("Advanced poemhelper:");
-        String text = "haladás";
+        String text = "képeslap";
         System.out.println("substring: "+text.substring(text.length()-3));
         advancedPoemHelper(text);
         advancedPoemHelper("kikövez");
@@ -151,18 +151,24 @@ public class PoemHelper {
         Set<Character> wovels = Set.of('a', 'á', 'e', 'é', 'i', 'í', 'o', 'ó', 'ö', 'ő', 'u', 'ú', 'ü', 'ű');
         String extracted = extractVowelKeyFromWord2(text); //asztalos -> "aao"
         List<String> listOfWords = new ArrayList<>();
+        List<String> listOfWords2 = new ArrayList<>();
         Map<String, List<String>> wordsWithSameWowels = new TreeMap<>();
         for (String word : words){
             String key = extractVowelKeyFromWord(word, wovels); //asztalos -> "aao"
-            if(extracted.contentEquals(key) && text.substring(text.length()-3).equals(word.substring(word.length()-3))) {
+            if(extracted.contentEquals(key)) {
                 listOfWords.add(word);
+            }
+            if(extracted.contentEquals(key) && text.substring(text.length()-3).equals(word.substring(word.length()-3))) {
+                listOfWords2.add(word);
             }
 
         }
-        System.out.println("Szavak amik rímelnek a '" + text + "' szóra: ");
+        System.out.println("Azonos hangrendű szavak a '" + text + "' szóval: ");
         System.out.println();
         System.out.println(listOfWords);
         System.out.println();
-
+        System.out.println("Szavak amik rímelnek a '" + text + "' szóra: ");
+        System.out.println();
+        System.out.println(listOfWords2);
     }
 }
