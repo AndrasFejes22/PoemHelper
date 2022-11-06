@@ -16,12 +16,14 @@ public class PoemHelper {
 
     public static void main(String[] args) {
         new PoemHelper().run();
+        System.out.println("haladás: "+extractVowelKeyFromWord2("haladás"));
+
     }
 
     private void run() {
         // 1. lépés: szavak file betöltése
         //List<String> words = loadWordsFromFile("hungarian_words/magyar_szavak_listaja_hosszabb.txt");
-        List<String> words = loadWordsFromFile("C:/Users/Andris/IdeaProjects/PoemHelper/res/words/magyar_szavak_listaja.txt");
+        List<String> words = loadWordsFromFile("C:/Users/Andris/IdeaProjects/PoemHelper/res/words/magyar_szavak_listaja_hosszabb.txt");
 
         // 2.: A magyar nyelvre jellemző betűstatisztika elkészítése
         Map<Character, Integer> letterStatistics = new TreeMap<>(); //treemap hogy a kulcsok alapján rendezve legyen
@@ -55,7 +57,7 @@ public class PoemHelper {
         }
         for (Entry<Character, Double> entry : letterPercentages.entrySet()) {
 
-            System.out.printf("%s -> %6.4f%%%n" , entry.getKey() , (((double)entry.getValue()) / totalNumberOfLetters) * 100);
+            //System.out.printf("%s -> %6.4f%%%n" , entry.getKey() , (((double)entry.getValue()) / totalNumberOfLetters) * 100);
         }
 
         //érték alapján kiiratva
@@ -65,21 +67,35 @@ public class PoemHelper {
         List<Entry<Character, Double>> entryList = new ArrayList<>(entrySet2);
         Collections.sort(entryList, new PercentageDescendingComparator()); //de lehet streamm()-el is
         for (Entry<Character, Double> entry : entryList) {
-            System.out.printf("%s -> %6.4f%%%n" , entry.getKey() , entry.getValue());
+            //System.out.printf("%s -> %6.4f%%%n" , entry.getKey() , entry.getValue());
         }
 
         //3.: multimap létrehozása, kulcs: szavak magánhangzóit tartalmazó String, érték a szavak listája
 
-        Set<Character> wovels = Set.of('a', 'á', 'e', 'é', 'i', 'o', 'ó', 'ö', 'ő', 'u', 'ú', 'ü', 'ű');
+        Set<Character> wovels = Set.of('a', 'á', 'e', 'é', 'i', 'í', 'o', 'ó', 'ö', 'ő', 'u', 'ú', 'ü', 'ű');
         //"aao" -> [asztalos, maszatos, stb]
-        Map<String, List<String>> wordsWithSameWowels = new HashMap<>();
+        Map<String, List<String>> wordsWithSameWowels = new TreeMap<>();
         for (String word : words){
             String key = extractVowelKeyFromWord(word, wovels); //asztalos -> "aao"
+            if(wordsWithSameWowels.containsKey(key)){
+                List<String> listOfWords = wordsWithSameWowels.get(key);
+                listOfWords.add(word);
+            } else {
+                List<String> listOfWords = new ArrayList<>();
+                listOfWords.add(word);
+                wordsWithSameWowels.put(key, listOfWords);
+            }
+        }
+        System.out.println();
+        System.out.println("-----------------------------------------------------");
+        System.out.println("poemhelper: ");
+        for (Entry<String, List<String>> entry : wordsWithSameWowels.entrySet()) {
+            //System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
 
 
 
-    }
+    } //run vége
 
     private String extractVowelKeyFromWord(String word, Set<Character> wovels) {
         StringBuilder vowelKey = new StringBuilder();
@@ -89,7 +105,7 @@ public class PoemHelper {
                 vowelKey.append(letter);
             }
         }
-        return null;
+        return vowelKey.toString();//asztalos -> "aao"
     }
 
     private List<String> loadWordsFromFile(String fileName) {
@@ -110,5 +126,17 @@ public class PoemHelper {
             //e.getMessage();
         }
         return Collections.emptyList();
+    }
+
+    private static String extractVowelKeyFromWord2(String word) {
+        Set<Character> wovels = Set.of('a', 'á', 'e', 'é', 'i', 'í', 'o', 'ó', 'ö', 'ő', 'u', 'ú', 'ü', 'ű');
+        StringBuilder vowelKey = new StringBuilder();
+        char[] charArray = word.toCharArray();
+        for(char letter : charArray){
+            if(wovels.contains(letter)){
+                vowelKey.append(letter);
+            }
+        }
+        return vowelKey.toString();//asztalos -> "aao"
     }
 }
