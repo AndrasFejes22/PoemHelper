@@ -21,7 +21,7 @@ public class PoemHelper {
     private void run() {
         // 1. lépés: szavak file betöltése
         //List<String> words = loadWordsFromFile("hungarian_words/magyar_szavak_listaja_hosszabb.txt");
-        List<String> words = loadWordsFromFile("hungarian_words/magyar_szavak_listaja.txt");
+        List<String> words = loadWordsFromFile("C:/Users/Andris/IdeaProjects/PoemHelper/res/words/magyar_szavak_listaja.txt");
 
         // 2.: A magyar nyelvre jellemző betűstatisztika elkészítése
         Map<Character, Integer> letterStatistics = new TreeMap<>(); //treemap hogy a kulcsok alapján rendezve legyen
