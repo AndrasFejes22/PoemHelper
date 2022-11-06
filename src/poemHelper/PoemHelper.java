@@ -16,7 +16,11 @@ public class PoemHelper {
 
     public static void main(String[] args) {
         new PoemHelper().run();
-        System.out.println("haladás: "+extractVowelKeyFromWord2("haladás"));
+        //System.out.println("haladás: "+extractVowelKeyFromWord2("haladás"));
+        System.out.println("---------------------------------------------");
+        System.out.println("Advanced poemhelper:");
+        advancedPoemHelper("haladás");
+        advancedPoemHelper("kikövez");
 
     }
 
@@ -42,10 +46,10 @@ public class PoemHelper {
 
             }
         }
-        System.out.println("Az összes magyar betű: " + totalNumberOfLetters);
+        //System.out.println("Az összes magyar betű: " + totalNumberOfLetters);
         Set<Entry<Character, Integer>> entrySet = letterStatistics.entrySet();
         for (Entry<Character, Integer> entry : entrySet) {
-            System.out.println(entry.getKey() + " --> " + entry.getValue() + " db");
+            //System.out.println(entry.getKey() + " --> " + entry.getValue() + " db");
         }
         System.out.println("-----------------------------------------------------");
         System.out.println("A betűk %-os előfordulása: ");
@@ -97,7 +101,7 @@ public class PoemHelper {
 
     } //run vége
 
-    private String extractVowelKeyFromWord(String word, Set<Character> wovels) {
+    private static String extractVowelKeyFromWord(String word, Set<Character> wovels) {
         StringBuilder vowelKey = new StringBuilder();
         char[] charArray = word.toCharArray();
         for(char letter : charArray){
@@ -108,7 +112,7 @@ public class PoemHelper {
         return vowelKey.toString();//asztalos -> "aao"
     }
 
-    private List<String> loadWordsFromFile(String fileName) {
+    private static List<String> loadWordsFromFile(String fileName) {
         List<String> words = new ArrayList<>();
         try(Scanner scanner = new Scanner(new File(fileName), "UTF-8")){ //"UTF-8" :  hungarian
             //List<String> words = new ArrayList<>();
@@ -117,7 +121,7 @@ public class PoemHelper {
                 //System.out.println(word);
                 words.add(word); //az összes szót belerakjuk a listába
             }
-            System.out.println(words.size() +" szó található a(z) '" + fileName + "' fájlban.");
+            //System.out.println(words.size() +" szó található a(z) '" + fileName + "' fájlban.");
             //System.out.println("HashSet.size(): "+new HashSet<>(words).size());//ugyanakkora mint a lista: nincs benne duplikáció
             return words;
         } catch (FileNotFoundException e) {
@@ -138,5 +142,26 @@ public class PoemHelper {
             }
         }
         return vowelKey.toString();//asztalos -> "aao"
+    }
+
+    private static void advancedPoemHelper(String text){
+        List<String> words = loadWordsFromFile("C:/Users/Andris/IdeaProjects/PoemHelper/res/words/magyar_szavak_listaja_hosszabb.txt");
+        Set<Character> wovels = Set.of('a', 'á', 'e', 'é', 'i', 'í', 'o', 'ó', 'ö', 'ő', 'u', 'ú', 'ü', 'ű');
+        String extracted = extractVowelKeyFromWord2(text); //asztalos -> "aao"
+        List<String> listOfWords = new ArrayList<>();
+        Map<String, List<String>> wordsWithSameWowels = new TreeMap<>();
+        for (String word : words){
+            String key = extractVowelKeyFromWord(word, wovels); //asztalos -> "aao"
+            if(extracted.contentEquals(key)) {
+
+                listOfWords.add(word);
+            }
+
+        }
+        System.out.println("Szavak amik rímelnek a '" + text + "' szóra: ");
+        System.out.println();
+        System.out.println(listOfWords);
+        System.out.println();
+
     }
 }
