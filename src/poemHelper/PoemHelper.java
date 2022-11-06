@@ -19,7 +19,9 @@ public class PoemHelper {
         //System.out.println("haladás: "+extractVowelKeyFromWord2("haladás"));
         System.out.println("---------------------------------------------");
         System.out.println("Advanced poemhelper:");
-        advancedPoemHelper("haladás");
+        String text = "haladás";
+        System.out.println("substring: "+text.substring(text.length()-3));
+        advancedPoemHelper(text);
         advancedPoemHelper("kikövez");
 
     }
@@ -152,8 +154,7 @@ public class PoemHelper {
         Map<String, List<String>> wordsWithSameWowels = new TreeMap<>();
         for (String word : words){
             String key = extractVowelKeyFromWord(word, wovels); //asztalos -> "aao"
-            if(extracted.contentEquals(key)) {
-
+            if(extracted.contentEquals(key) && text.substring(text.length()-3).equals(word.substring(word.length()-3))) {
                 listOfWords.add(word);
             }
 
