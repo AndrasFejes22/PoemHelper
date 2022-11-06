@@ -67,6 +67,10 @@ public class PoemHelper {
         for (Entry<Character, Double> entry : entryList) {
             System.out.printf("%s -> %6.4f%%%n" , entry.getKey() , entry.getValue());
         }
+
+        //3.: multimap létrehozása, kulcs: szavak magánhangzóit tartalmazó String, érték a szavak listája
+
+        Set<Character> wovels = Set.of('a', 'á', 'e', 'é', 'i', 'o', 'ó', 'ö', 'ő', 'u', 'ú', 'ü', 'ű');
     }
 
     private List<String> loadWordsFromFile(String fileName) {
