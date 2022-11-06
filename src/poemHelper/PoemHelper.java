@@ -71,6 +71,25 @@ public class PoemHelper {
         //3.: multimap létrehozása, kulcs: szavak magánhangzóit tartalmazó String, érték a szavak listája
 
         Set<Character> wovels = Set.of('a', 'á', 'e', 'é', 'i', 'o', 'ó', 'ö', 'ő', 'u', 'ú', 'ü', 'ű');
+        //"aao" -> [asztalos, maszatos, stb]
+        Map<String, List<String>> wordsWithSameWowels = new HashMap<>();
+        for (String word : words){
+            String key = extractVowelKeyFromWord(word, wovels); //asztalos -> "aao"
+        }
+
+
+
+    }
+
+    private String extractVowelKeyFromWord(String word, Set<Character> wovels) {
+        StringBuilder vowelKey = new StringBuilder();
+        char[] charArray = word.toCharArray();
+        for(char letter : charArray){
+            if(wovels.contains(letter)){
+                vowelKey.append(letter);
+            }
+        }
+        return null;
     }
 
     private List<String> loadWordsFromFile(String fileName) {
